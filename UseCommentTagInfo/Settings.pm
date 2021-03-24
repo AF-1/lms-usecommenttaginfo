@@ -10,7 +10,7 @@ use Slim::Utils::Prefs;
 use Slim::Utils::Log;
 use Data::Dumper;
 
-my $log   = logger('plugin.usecommenttaginfo');
+my $log = logger('plugin.usecommenttaginfo');
 my $prefs = preferences('plugin.usecommenttaginfo');
 
 sub name {
@@ -26,12 +26,12 @@ sub prefs {
 }
 
 sub handler {
-    my ($class, $client, $paramRef) = @_;
+	my ($class, $client, $paramRef) = @_;
 	my $result = undef;
 	my $maxItemNum = 40;
 
-    # Save buttons config
-    if ($paramRef->{saveSettings}) {
+	# Save buttons config
+	if ($paramRef->{saveSettings}) {
 		my %commenttagconfigmatrix;
 		my %searchstringDone;
 		my %titleformatnameDone;

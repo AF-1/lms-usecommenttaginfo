@@ -42,7 +42,7 @@ sub initTrackInfoHandler {
 	my $commenttagconfigmatrix = $prefs->get('commenttagconfigmatrix');
 	if (keys %{$commenttagconfigmatrix} > 0) {
 		foreach my $commenttagconfig (keys %{$commenttagconfigmatrix}) {
-			if ($commenttagconfig ne '') { 
+			if ($commenttagconfig ne '') {
 				my $commenttagconfigID = $commenttagconfig;
 				$log->debug('commentconfigID = '.$commenttagconfigID);
 				my $searchstring = $commenttagconfigmatrix->{$commenttagconfig}->{'searchstring'};
@@ -106,7 +106,7 @@ sub initTitleFormats {
 	my $commenttagconfigmatrix = $prefs->get('commenttagconfigmatrix');
 	if (keys %{$commenttagconfigmatrix} > 0) {
 		foreach my $commenttagconfig (keys %{$commenttagconfigmatrix}) {
-			if ($commenttagconfig ne '') { 
+			if ($commenttagconfig ne '') {
 				my $commentconfigID = $commenttagconfig;
 				my $titleformatenabled = $commenttagconfigmatrix->{$commenttagconfig}->{'titleformatenabled'};
 				my $titleformatname = $commenttagconfigmatrix->{$commenttagconfig}->{'titleformatname'};
