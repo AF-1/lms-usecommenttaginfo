@@ -1,0 +1,53 @@
+PLUGIN_USECOMMENTTAGINFO
+	EN	Use Comment Tag Info
+
+PLUGIN_USECOMMENTTAGINFO_DESC
+	EN	This plugin allows you to include extra information in the song details page based on (key)words in comment tags.
+
+PLUGIN_USECOMMENTTAGINFO_LOG_DESC
+	EN	Log of plugin UseCommentTagInfo
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TH_CONTEXTMENU
+	EN	Settings For Context Menu Track Information
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TH_TITLEFORMAT
+	EN	Title Format Settings
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING
+	EN	Search String
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENUCATEGORY_DISPLAYSTRING
+	EN	Menu Item Name
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENUCONTENT_DISPLAYSTRING
+	EN	Displayed Item String
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION
+	EN	Menu Position
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_ENABLE
+	EN	Title Format Enabled
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_NAME
+	EN	Title Format Name
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_DISPLAYSTRING
+	EN	Displayed Title Format String
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_TOP
+	EN	Top
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_BOTTOM
+	EN	Bottom
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_MOREMENU_TOP
+	EN	in "More Info" Menu - Top
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_MOREMENU_BOTTOM
+	EN	in "More Info" Menu - Bottom
+
+PLUGIN_USECOMMENTTAGINFO_HELP_ABOUT_TITLE
+	EN	About 
+
+PLUGIN_USECOMMENTTAGINFO_HELP_ABOUT_TEXT
+	EN	This plugin allows you to include extra information in the LMS <b>song details information page</b>.<br>If it finds any of the (key)words you set here in a track's comment tag it displays the information you set here on the song details information page in the way you choose.<br><br>Examples:<br><br>#1<br>You would like to include the record label in the <i>song detail information page</i>. Add words like EMI, DG or Stax to your comment tags. Then set the <b>Search String</b> to any of those words, set the <b>Menu Item Name</b> to "Record label" and the <b>Displayed Item String</b> to the full name of the record label.<br><br>#2<br>Not all <i>live</i> or <i>best of</i> albums include "live" or "best of" in their album title.<br>Just include the word "LIVE" or "BESTOF" in the comment tag of those tracks, set <b>Search String</b> to "LIVE" or "BESTOF", <b>Menu Item Name</b> to "Live" or "Best of", and <b>Displayed Item String</b> to "yes" or "✔︎".<br><br><b>Title Formats</b> are used to display a <b>short</b> string on the <i>Now Playing screensaver</i> and the <i>Music Information plugin screensaver</i> of older devices like Squeezebox Classic, Boom or Transporter.<br><br><b>Notes:</b><br><br>- Don't use (any kind of) spaces in the fields <b>Search String</b> and <b>Title Format Name</b>. If possible, keep the (key)words short.<br><br>- For each search string you can choose to display <b>context menu track information</b>, <b>title formats</b> or <b>both</b>.<br>- You can use <b>unicode <u>symbols</u></b> in displayed strings. Please use the <b>hex code</b>, it works best. So for example, the hex code of a <b>black heart</b> is <xmp style="display: inline-block;font-weight:bold;">&#x2665;</xmp> and would be displayed as &#x2665;. For further unicode characters look <a href="https://www.rapidtables.com/web/html/html-codes.html">here</a> or <a href="https://codepoints.net/U+2665">here</a>.<br><br>- About the <b>position</b> of track information: in the <b>LMS web UI</b> there's actually no <b>"More Info" menu</b>, rather its content is displayed as part of the song details page. On piCorePlayer, Squeezebox Touch or in the Material skin web UI the "More Info" menu is actually a menu you can enter.<br><br>- This plugin includes <i>CustomSkip</i> filters: lets you skip songs with (key)words in comment tag or title.

@@ -1,0 +1,105 @@
+[% PROCESS settings/header.html %]
+	[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO"; title = title _ " " _ pluginversion %]
+		<div class="prefDesc">[% "PLUGIN_USECOMMENTTAGINFO_DESC" | string %]</div>
+	[% END %]
+
+		<table class="usecommenttaginfo-table">
+			<colgroup>
+				<col class="usecommenttaginfo-col-1"/>
+				<col class="usecommenttaginfo-col-2"/>
+				<col class="usecommenttaginfo-col-3"/>
+				<col class="usecommenttaginfo-col-4"/>
+				<col class="usecommenttaginfo-col-5"/>
+				<col class="usecommenttaginfo-col-6"/>
+				<col class="usecommenttaginfo-col-7"/>
+			</colgroup>
+			<tr>
+				<th></th>
+				<th colspan="3">-------------------- [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TH_CONTEXTMENU" | string %] --------------------</th>
+				<th colspan="3">-------------------- [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TH_TITLEFORMAT" | string %] --------------------</th>
+			</tr>
+			<tr>
+				<th style="height:4px;" colspan="7"></th>
+			</tr>
+			<tr>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENUCATEGORY_DISPLAYSTRING" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENUCONTENT_DISPLAYSTRING" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_ENABLE" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_NAME" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_DISPLAYSTRING" | string %]</th>
+			</tr>
+			<tr>
+				<th style="height:4px;" colspan="7"></th>
+			</tr>
+
+			[% FOREACH commentconfig = commenttagconfigmatrix; idx = loop.count %]
+			<tr>
+				<input type="text" style="display:none;" class="stdedit" name="pref_idNum_[% idx %]" id="idNum" value="[% idx %]" size="1" readonly>
+				<td>
+					<input type="text" class="stdedit" name="pref_searchstring_[% idx %]" id="searchstring_[% idx %]" value="[% commentconfig.searchstring %]" autocomplete="off">
+					<br><span id="searchstring_[% idx %]_error" class="errormessage"></span>
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_contextmenucategoryname_[% idx %]" id="contextmenucategoryname_[% idx %]" value="[% commentconfig.contextmenucategoryname %]" autocomplete="off">
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_contextmenucategorycontent_[% idx %]" id="contextmenucategorycontent_[% idx %]" value="[% commentconfig.contextmenucategorycontent %]" autocomplete="off">
+				</td>
+				<td>
+					<select name="pref_contextmenuposition_[% idx %]" id="contextmenuposition_[% idx %]">
+						[% FOREACH option = {
+							'0' => 'PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_TOP',
+							'1' => 'PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_BOTTOM',
+							'2' => 'PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_MOREMENU_TOP',
+							'3' => 'PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_MOREMENU_BOTTOM',
+						} %]
+							<option [% IF commentconfig.contextmenuposition == option.key %]selected='selected' [% END %]value="[% option.key %]">[% option.value | string %]</option>
+						[%- END -%]
+					</select>
+				</td>
+				<td>
+					<input name="pref_titleformatenabled_[% idx %]" id="titleformatenabled_[% idx %]" type="checkbox" [% IF commentconfig.titleformatenabled %] checked [% END %]>
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_titleformatname_[% idx %]" id="titleformatname_[% idx %]" value="[% commentconfig.titleformatname %]" autocomplete="off">
+					<br><span id="titleformatname_[% idx %]_error" class="errormessage"></span>
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_titleformatdisplaystring_[% idx %]" id="titleformatdisplaystring" value="[% commentconfig.titleformatdisplaystring %]" autocomplete="off">
+				</td>
+			</tr>
+		    [% END %]
+        </table>
+		<br><br><br>
+		[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_HELP_ABOUT_TITLE" %]
+			[% "PLUGIN_USECOMMENTTAGINFO_HELP_ABOUT_TEXT" | string %]
+		[% END %]
+[% PROCESS settings/footer.html %]
+<style type="text/css">
+	.usecommenttaginfo-col-1, .usecommenttaginfo-col-2, .usecommenttaginfo-col-3, .usecommenttaginfo-col-4, .usecommenttaginfo-col-6, .usecommenttaginfo-col-7 {text-align:center; width: 16em;}
+	.usecommenttaginfo-col-5 {text-align:center; width: 12em;}
+	.usecommenttaginfo-input {width: 100%; box-sizing: border-box;}
+    .usecommenttaginfo-table th {font-weight:bold;}
+    .usecommenttaginfo-table td, .usecommenttaginfo-table th {text-align:center; padding: 0.15em 0.25em 0.15em 0;}
+    .error {background-color: #ffcccc !important;}
+    .errormessage {position: relative; top: 2px; color: red;}
+</style>
+<script TYPE="text/javascript">
+function pressHandler(e) {
+	if (/\s/.test(this.value)) {
+		this.classList.add("error");
+		document.getElementById(this.id+"_error").innerHTML = "No spaces allowed!";
+	} else {
+		this.classList.remove("error");
+		document.getElementById(this.id+"_error").innerHTML = "";
+	}
+}
+for (i = 1; i < ([% itemcount %]+1); i++) {
+	document.getElementById('searchstring_'+i).addEventListener('input', pressHandler);
+	document.getElementById('searchstring_'+i).addEventListener('change', pressHandler);
+	document.getElementById('titleformatname_'+i).addEventListener('input', pressHandler);
+	document.getElementById('titleformatname_'+i).addEventListener('change', pressHandler);
+}
+</script>
