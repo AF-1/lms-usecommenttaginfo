@@ -2,52 +2,218 @@ PLUGIN_USECOMMENTTAGINFO
 	EN	Use Comment Tag Info
 
 PLUGIN_USECOMMENTTAGINFO_DESC
-	EN	This plugin allows you to include extra information in the song details page based on (key)words in comment tags.
+	EN	This plugin uses (key)words in your music files' comment tags to: add extra information to the song details page, define and display custom title formats, create virtual libraries with browse menus, skip songs with CustomSkip.
 
 PLUGIN_USECOMMENTTAGINFO_LOG_DESC
 	EN	Log of plugin UseCommentTagInfo
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_TH_CONTEXTMENU
-	EN	Settings For Context Menu Track Information
+PLUGIN_USECOMMENTTAGINFO_SUBPAGE
+	EN	Settings Section
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_TH_TITLEFORMAT
-	EN	Title Format Settings
+PLUGIN_USECOMMENTTAGINFO_SUBPAGE_DESC
+	EN	Select a settings section
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS
+	EN	Song Details Infos
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS
+	EN	Title Formats
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS
+	EN	Extras
 
 PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING
 	EN	Search String
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENUCATEGORY_DISPLAYSTRING
+
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CATEGORY_DISPLAYSTRING
 	EN	Menu Item Name
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENUCONTENT_DISPLAYSTRING
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CONTENT_DISPLAYSTRING
 	EN	Displayed Item String
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_MENU_POSITION
 	EN	Menu Position
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_ENABLE
-	EN	Title Format Enabled
-
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_NAME
-	EN	Title Format Name
-
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMAT_DISPLAYSTRING
-	EN	Displayed Title Format String
-
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_TOP
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CONTEXTMENU_POSITION_TOP
 	EN	Top
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_BOTTOM
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CONTEXTMENU_POSITION_BOTTOM
 	EN	Bottom
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_MOREMENU_TOP
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CONTEXTMENU_POSITION_MOREMENU_TOP
 	EN	in "More Info" Menu - Top
 
-PLUGIN_USECOMMENTTAGINFO_SETTINGS_CONTEXTMENU_POSITION_MOREMENU_BOTTOM
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CONTEXTMENU_POSITION_MOREMENU_BOTTOM
 	EN	in "More Info" Menu - Bottom
 
-PLUGIN_USECOMMENTTAGINFO_HELP_ABOUT_TITLE
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_ABOUT
 	EN	About
 
-PLUGIN_USECOMMENTTAGINFO_HELP_ABOUT_TEXT
-	EN	This plugin allows you to include extra information in the LMS <b>song details information page</b>.<br>If it finds any of the (key)words you set here in a track's comment tag it displays the information you set here on the song details information page in the way you choose.<br><br>Examples:<br><br>#1<br>You would like to include the record label in the <i>song detail information page</i>. Add words like EMI, DG or Stax to your comment tags. Then set the <b>Search String</b> to any of those words, set the <b>Menu Item Name</b> to "Record label" and the <b>Displayed Item String</b> to the full name of the record label.<br><br>#2<br>Not all <i>live</i> or <i>best of</i> albums include "live" or "best of" in their album title.<br>Just include the word "LIVE" or "BESTOF" in the comment tag of those tracks, set <b>Search String</b> to "LIVE" or "BESTOF", <b>Menu Item Name</b> to "Live" or "Best of", and <b>Displayed Item String</b> to "yes" or "✔︎".<br><br><b>Title Formats</b> are used to display a <b>short</b> string on the <i>Now Playing screensaver</i> and the <i>Music Information plugin screensaver</i> of older devices like Squeezebox Classic, Boom or Transporter.<br><br><b>Notes:</b><br><br>- Don't use (any kind of) spaces in the fields <b>Search String</b> and <b>Title Format Name</b>. If possible, keep the (key)words short.<br><br>- For each search string you can choose to display <b>context menu track information</b>, <b>title formats</b> or <b>both</b>.<br>- You can use <b>unicode <u>symbols</u></b> in displayed strings. Please use the <b>hex code</b>, it works best. So for example, the hex code of a <b>black heart</b> is <xmp style="display: inline-block;font-weight:bold;">&#x2665;</xmp> and would be displayed as &#x2665;. For further unicode characters look <a href="https://www.rapidtables.com/web/html/html-codes.html">here</a> or <a href="https://codepoints.net/U+2665">here</a>.<br><br>- About the <b>position</b> of track information: in the <b>LMS web UI</b> there's actually no <b>"More Info" menu</b>, rather its content is displayed as part of the song details page. On piCorePlayer, Squeezebox Touch or in the Material skin web UI the "More Info" menu is actually a menu you can enter.<br><br>- This plugin includes <i>CustomSkip</i> filters: lets you skip songs with (key)words in comment tag or title.
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_ABOUT_TEXT
+	EN	<b>Use (key)words in a track's comment tag to display the string you set here on the song details information page.</b><br><br>Examples:<br><br>#1<br>You would like to include the record label in the <i>song details information page</i>. Add words like DG, HM or Stax to the comment tag of your tracks. Then set the <b>Search String</b> to any of those words, set the <b>Menu Item Name</b> to "Record label" and the <b>Displayed Item String</b> to the full name of the record label.<br><br>#2<br>Not all <i>live</i> or <i>best of</i> albums include "live" or "best of" in their album title.<br>Just include the word "LIVE" or "BESTOF" in the comment tag of those tracks, set <b>Search String</b> to "LIVE" or "BESTOF", <b>Menu Item Name</b> to "Live" or "Best of", and <b>Displayed Item String</b> to "yes" or "✔︎".<br><br><br><b>Notes:</b><br><br>- To avoid problems <b>don't use special characters or spaces in your keywords</b> and keep them short.<br>- You can use unicode <b>symbols</b> in displayed strings. <b>Hex code</b> works. Example: the hex code of a <b>black heart</b> is <xmp style="display: inline-block;font-weight:bold;">&#x2665;</xmp> and would be displayed as &#x2665;. For more unicode characters look <a href="https://www.rapidtables.com/web/html/html-codes.html">here</a> or <a href="https://codepoints.net/U+2665">here</a>.<br>- About the <b>position</b> of track information: in the <b>LMS web UI</b> there's actually no <b>"More Info" menu</b>, rather its content is displayed as part of the song details page. On piCorePlayer, Squeezebox Touch or in the Material skin web UI the "More Info" menu is actually a menu you can enter.<br><br>- If any of your displayed strings includes a character that's not part of a device's default font it won't be displayed. Either change the character or change the device's font.
+
+
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_NAME
+	EN	Title Format Name
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_DISPLAYSTRING
+	EN	Displayed Title Format String
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_ABOUT_TEXT
+	EN	<b>Use (key)words in a track's comment tag to display custom title formats.</b><br><br><b>Title Formats</b> are available for selection both in the web interface and on players. They can be used to display a <b>short</b> string or a character on the <i>Now Playing screensaver</i> and the <i>Music Information plugin screensaver</i> or to append a string to the track title.<br><br><br><b>Notes:</b><br><br>- Once you've set your custom title format here you'll find it on the <i>LMS settings > Interface</i> page.<br><br>- To avoid problems <b>don't use special characters or spaces in your keywords</b> and keep them short.<br>- You can use unicode <b>symbols</b> in displayed strings. <b>Hex code</b> works. Example: the hex code of a <b>black heart</b> is <xmp style="display: inline-block;font-weight:bold;">&#x2665;</xmp> and would be displayed as &#x2665;. For more unicode characters look <a href="https://www.rapidtables.com/web/html/html-codes.html">here</a> or <a href="https://codepoints.net/U+2665">here</a>.<br>- If any of your displayed strings includes a character that's not part of a device's default font it won't be displayed. Either change the character or change the device's font.
+
+
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS
+	EN	Browse menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_PREDEFINED
+	EN	Predefined browse menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_ENABLED
+	EN	Enabled
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING_INCLUDE
+	EN	Search String Include
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRINGEXCLUDE
+	EN	Search String Exclude
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_DISPLAYSTRING
+	EN	Menu Name
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ARTISTSMENUS
+	EN	Artist Menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMSMENUS
+	EN	Album Menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_MISCMENUS
+	EN	Other Menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_ALLARTISTS
+	EN	Artists
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_MENUDISPLAYNAME_CONTIBUTOR_ALLARTISTS
+	EN	Artists
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_ALBUMARTISTS
+	EN	Album artists
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_COMPOSERS
+	EN	Composers
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_CONDUCTORS
+	EN	Conductors
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_TRACKARTISTS
+	EN	Track artists
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_BANDS
+	EN	Bands
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMS_ALL
+	EN	<b>All</b> albums
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_MENUDISPLAYNAME_ALBUMS_ALL
+	EN	All albums
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMS_NOCOMPIS
+	EN	Albums without compilations
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMS_COMPIS_ONLY
+	EN	Compilations only
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_GENRES
+	EN	Genres
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_YEARS
+	EN	Years
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_MENUDISPLAYNAME_YEARS
+	EN	Years
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_TRACKS
+	EN	Tracks
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ABOUT_TEXT
+	EN	<b>Use (key)words in a track's comment tag to create virtual libraries and choose from a number of menus to browse these virtual libraries.</b><br><br><b>Notes:</b><br><br>- <b>The more virtual libraries you add and the more tracks they contain the more time LMS will need to start or to rebuild your virtual libraries after you've changed anything on this page.</b><br>- To <b>delete</b> a virtual library and its menus just <b>empty the search string field and press <i>apply</i></b>.<br>- Instead of deleting a virtual library (definition) and its menus you can just <b>disable</b> them for later use by unchecking the <i>Enabled</i> box.<br>- To avoid problems <b>don't use special characters or spaces in your keywords</b> and keep them short.<br>- If the search for tracks with your keywords doesn't find any matching tracks the menus won't be displayed.<br>- If you choose a more 'exotic' menu like the artists-<b>band</b> menu it might be empty depending on how you've configured LMS to handle/display your tags on the <i>LMS settings > My Music</i> page.
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_OPERANOXMAS
+	EN	Opera (without Christmas)
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_OPERANOXMAS_DESC
+	EN	Adds a menu with opera albums. Includes albums whose genre name is 'Classical - Opera' or 'Opera', excludes tracks with 'Christmas' in comment tag.
+
+PLUGIN_USECOMMENTTAGINFO_VLNAME_OPERANOXMAS
+	EN	Opera, not Christmas
+
+PLUGIN_USECOMMENTTAGINFO_MENUNAME_OPERANOXMAS
+	EN	Opera
+
+PLUGIN_USECOMMENTTAGINFO_VLNAME_COMPIS_EXCLUDEDGENRES
+	EN	VL for Random Compilations
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_RANDOM
+	EN	Compilations Random
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_RANDOM_DESC
+	EN	Adds a home menu item that shows a random selection of compilation albums
+
+PLUGIN_USECOMMENTTAGINFO_MENUNAME_COMPISRANDOM
+	EN	Compilations Random
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_BYGENRE
+	EN	Compilations by Genre
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_BYGENRE_DESC
+	EN	Adds a home menu item that lets you browse your compilation albums by genre
+
+PLUGIN_USECOMMENTTAGINFO_MENUNAME_COMPISBYGENRE
+	EN	Compilations by Genre
+
+
+
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_COMPIS_RANDOM_GENREEXCLUDELIST
+	EN	Exclude genres from<br>random compilations menu
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_COMPIS_RANDOM_GENREEXCLUDELIST_DESC
+	EN	Enter a <b>comma separated list</b> of genres you want to exclude from the random compilations menu. Don't use special characters in your genre names.
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST
+	EN	Home Menu Link to Playlist
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST_DESC
+	EN	Creates a link to a playlist of your choice on the home menu (top) level for quick access.<br>Example: if you use one of your playlists to gather favorite tracks as an alternative to the Favorites menu.
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST_ALTNAME
+	EN	Use alternative menu name
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST_ALTNAME_DESC
+	EN	Choose a different name for your home menu item than the name of the playlist it links to
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERNAME
+	EN	Name of home menu item<br>for browse menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERNAME_DESC
+	EN	Sets the name of the home menu item/folder that contains the menus you've enabled in the <b>Browse Menus</b> settings section.
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON
+	EN	Icon of home menu item<br>for browse menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_DESC
+	EN	Choose a different icon for the home menu item (parent folder) that contains the menus you've enabled in the <b>Browse Menus</b> settings section.
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_PLAYLISTS
+	EN	Playlists icon
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_MUSIC
+	EN	Music icon
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_FOLDER
+	EN	Folder icon
+

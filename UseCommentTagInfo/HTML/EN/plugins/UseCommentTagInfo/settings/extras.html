@@ -1,0 +1,49 @@
+[% page = "PLUGIN_USECOMMENTTAGINFO" %]
+[% PROCESS settings/header.html %]
+
+[% PROCESS plugins/UseCommentTagInfo/settings/subpage_chooser.html %]
+
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERNAME" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERNAME_DESC" %]
+	<input type="text" class="stdedit" name="pref_browsemenus_parentfoldername" id="browsemenus_parentfoldername" value="[% prefs.browsemenus_parentfoldername %]" size="30" autocomplete="off">
+[% END %]
+<br>
+
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_DESC" %]
+	<select name="pref_browsemenus_parentfoldericon" id="browsemenus_parentfoldericon">
+		[% FOREACH option = {
+			'0' => 'PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_MUSIC',
+			'1' => 'PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_PLAYLISTS',
+			'2' => 'PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_BROWSMENUS_PARENTFOLDERICON_FOLDER',
+		} %]
+			<option [% IF prefs.browsemenus_parentfoldericon == option.key %]selected='selected' [% END %]value="[% option.key %]">[% option.value | string %]</option>
+		[%- END -%]
+	</select>
+[% END %]
+<br>
+
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_COMPIS_RANDOM_GENREEXCLUDELIST" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_COMPIS_RANDOM_GENREEXCLUDELIST_DESC" %]
+	<input type="text" class="stdedit" name="pref_compisrandom_genreexcludelist" id="compisrandom_genreexcludelist" value="[% prefs.compisrandom_genreexcludelist %]" size="60">
+[% END %]
+<br>
+
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST_DESC" %]
+[% IF playlistcount %]
+	<select name="pref_toplevelplaylistname" id="toplevelplaylistname">
+		[% FOREACH plist = allplaylists %]
+			<option [% IF plist.chosen %]selected='selected' [% END %]value="[% plist.playlist %]">[% plist.playlist %]</option>
+		[% END %]
+	</select>
+[% ELSE %]
+	<span style="text-align: center;">[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_PLAYLISTS_NOPLFOUND" | string %]</span>
+[% END %]
+[% END %]
+[% IF homemenuplaylist %] 
+	<br>
+
+	[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST_ALTNAME" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_EXTRAS_TOPLEVELPLAYLIST_ALTNAME_DESC" %]
+		<input type="text" class="stdedit" name="pref_alterativetoplevelplaylistname" id="alterativetoplevelplaylistname" value="[% prefs.alterativetoplevelplaylistname %]">
+	[% END %]
+[% END %]
+<br>
+
+[% PROCESS settings/footer.html %]

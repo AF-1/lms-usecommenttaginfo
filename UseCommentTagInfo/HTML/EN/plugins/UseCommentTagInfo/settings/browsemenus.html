@@ -1,0 +1,111 @@
+[% page = "PLUGIN_USECOMMENTTAGINFO" %]
+[% PROCESS settings/header.html %]
+
+[% PROCESS plugins/UseCommentTagInfo/settings/subpage_chooser.html %]
+
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_PREDEFINED" %]
+	[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_RANDOM" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_RANDOM_DESC" %]
+		<input name="pref_compisrandom" id="compisrandom" type="checkbox" [% IF prefs.compisrandom %] checked [% END %]>
+	[% END %]
+	<br>
+
+	[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_BYGENRE" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_BYGENRE_DESC" %]
+		<input name="pref_compisbygenre" id="compisbygenre" type="checkbox" [% IF prefs.compisbygenre %] checked [% END %]>
+	[% END %]
+	<br>
+
+	[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_OPERANOXMAS" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_OPERANOXMAS_DESC" %]
+		<input name="pref_operanoxmas" id="operanoxmas" type="checkbox" [% IF prefs.operanoxmas %] checked [% END %]>
+	[% END %]
+[% END %]
+<br><hr><br>
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS" %]
+		<table class="usecommenttaginfo-table">
+			<colgroup>
+				<col class="usecommenttaginfo-col-1"/>
+				<col class="usecommenttaginfo-col-2"/>
+				<col class="usecommenttaginfo-col-3"/>
+				<col class="usecommenttaginfo-col-4"/>
+				<col class="usecommenttaginfo-col-5"/>
+				<col class="usecommenttaginfo-col-6"/>
+				<col class="usecommenttaginfo-col-7"/>
+			</colgroup>
+			<tr>
+				<th style="height:4px;" colspan="7"></th>
+			</tr>
+			<tr>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_ENABLED" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING_INCLUDE" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRINGEXCLUDE" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_DISPLAYSTRING" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ARTISTSMENUS" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMSMENUS" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_MISCMENUS" | string %]</th>
+			</tr>
+			<tr>
+				<th style="height:4px;" colspan="7"></th>
+			</tr>
+
+			[% FOREACH browsemenusconfig = browsemenusconfigmatrix; idx = loop.count %]
+			<tr>
+				<input type="text" style="display:none;" class="stdedit" name="pref_idNum_[% idx %]" id="idNum" value="[% idx %]" size="1" readonly>
+				<td>
+					<input name="pref_enabled_[% idx %]" id="enabled_[% idx %]"  type="checkbox" [% IF browsemenusconfig.enabled %] checked [% END %]>
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_searchstring_[% idx %]" id="searchstring_[% idx %]" value="[% browsemenusconfig.searchstring %]" size="20" autocomplete="off">
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_searchstringexclude_[% idx %]" id="searchstringexclude_[% idx %]" value="[% browsemenusconfig.searchstringexclude %]" size="20" autocomplete="off">
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_browsemenu_name_[% idx %]" id="browsemenu_name_[% idx %]" value="[% browsemenusconfig.browsemenu_name %]" size="25" autocomplete="off">
+				</td>
+				<td>
+					<div class="checkboxlist list_artists">
+						<input name="pref_browsemenu_contributor_allartists_[% idx %]" id="browsemenu_contributor_allartists_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_contributor_allartists %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_ALLARTISTS" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_contributor_albumartists_[% idx %]" id="browsemenu_contributor_albumartists_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_contributor_albumartists %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_ALBUMARTISTS" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_contributor_composers_[% idx %]" id="browsemenu_contributor_composers_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_contributor_composers %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_COMPOSERS" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_contributor_conductors_[% idx %]" id="browsemenu_contributor_conductors_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_contributor_conductors %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_CONDUCTORS" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_contributor_trackartists_[% idx %]" id="browsemenu_contributor_trackartists_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_contributor_trackartists %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_TRACKARTISTS" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_contributor_bands_[% idx %]" id="browsemenu_contributor_bands_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_contributor_bands %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_CONTIBUTOR_BANDS" | string %]<br>
+					</div>
+				</td>
+				<td>
+					<div class="checkboxlist list_albums">
+						<input name="pref_browsemenu_albums_all_[% idx %]" id="browsemenu_albums_all_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_albums_all %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMS_ALL" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_albums_nocompis_[% idx %]" id="browsemenu_albums_nocompis_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_albums_nocompis %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMS_NOCOMPIS" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_albums_compisonly_[% idx %]" id="browsemenu_albums_compisonly_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_albums_compisonly %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMS_COMPIS_ONLY" | string %]<br>
+					</div>
+				</td>
+				<td>
+					<div class="checkboxlist list_misc">
+						<input name="pref_browsemenu_genres_[% idx %]" id="browsemenu_genres_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_genres %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_GENRES" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_years_[% idx %]" id="browsemenu_years_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_years %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_YEARS" | string %]<br><div class="spacer"></div>
+						<input name="pref_browsemenu_tracks_[% idx %]" id="browsemenu_tracks_[% idx %]" type="checkbox" [% IF browsemenusconfig.browsemenu_tracks %] checked [% END %]> [% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_TRACKS" | string %]<br>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th style="height:4px;" colspan="7"></th>
+			</tr>
+			[% END %]
+		</table>
+[% END %]
+<br><hr><br>
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_ABOUT" %]
+	[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ABOUT_TEXT" | string %]
+[% END %]
+[% PROCESS settings/footer.html %]
+<style type="text/css">
+	.usecommenttaginfo-col-1 {text-align:center; width: 3em;}
+	.usecommenttaginfo-col-2, .usecommenttaginfo-col-3, .usecommenttaginfo-col-4 {text-align:center; width: 16em;}
+	.usecommenttaginfo-col-5, .usecommenttaginfo-col-6, .usecommenttaginfo-col-7 {text-align:left; width: 16em;}
+	.usecommenttaginfo-table td, .usecommenttaginfo-table th {text-align:center; padding: 0.15em 0.25em 0.15em 0;}
+	.usecommenttaginfo-table th {font-weight:bold;}
+	.checkboxlist {text-align:left;}
+	.list_artists {width:90px; margin-left:30%;}
+	.list_albums {width:160px; margin-left:16%;}
+	.list_misc {width:100px; margin-left:35%;}
+	.spacer {height:3px;}
+</style>

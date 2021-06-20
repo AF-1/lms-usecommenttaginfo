@@ -3,10 +3,10 @@
 	<id>af4bb0d2-f101-f908-69d0-5652b51c896c</id>
 	<name>PLUGIN_USECOMMENTTAGINFO</name>
 	<module>Plugins::UseCommentTagInfo::Plugin</module>
-	<version>1.0.4</version>
+	<version>1.2.2</version>
 	<description>PLUGIN_USECOMMENTTAGINFO_DESC</description>
 	<creator>AF</creator>
-	<optionsURL>plugins/UseCommentTagInfo/settings/settings.html</optionsURL>
+	<optionsURL>plugins/UseCommentTagInfo/settings/songdetails.html</optionsURL>
 	<homepageURL>https://github.com/AF-1/lms-usecommenttaginfo</homepageURL>
 	<defaultState>enabled</defaultState>
 	<targetApplication>

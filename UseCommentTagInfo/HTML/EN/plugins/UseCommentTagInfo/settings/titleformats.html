@@ -1,0 +1,51 @@
+[% page = "PLUGIN_USECOMMENTTAGINFO" %]
+[% PROCESS settings/header.html %]
+
+[% PROCESS plugins/UseCommentTagInfo/settings/subpage_chooser.html %]
+
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS" %]
+		<table class="usecommenttaginfo-table">
+			<colgroup>
+				<col class="usecommenttaginfo-col-1"/>
+				<col class="usecommenttaginfo-col-2"/>
+				<col class="usecommenttaginfo-col-3"/>
+			</colgroup>
+			<tr>
+				<th style="height:4px;" colspan="3"></th>
+			</tr>
+			<tr>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_NAME" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_DISPLAYSTRING" | string %]</th>
+			</tr>
+			<tr>
+				<th style="height:4px;" colspan="3"></th>
+			</tr>
+
+			[% FOREACH titleformatsconfig = titleformatsconfigmatrix; idx = loop.count %]
+			<tr>
+				<input type="text" style="display:none;" class="stdedit" name="pref_idNum_[% idx %]" id="idNum" value="[% idx %]" size="1" readonly>
+				<td>
+					<input type="text" class="stdedit" name="pref_searchstring_[% idx %]" id="searchstring_[% idx %]" value="[% titleformatsconfig.searchstring %]" autocomplete="off">
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_titleformatname_[% idx %]" id="titleformatname_[% idx %]" value="[% titleformatsconfig.titleformatname %]" autocomplete="off">
+				</td>
+				<td>
+					<input type="text" class="stdedit" name="pref_titleformatdisplaystring_[% idx %]" id="titleformatdisplaystring" value="[% titleformatsconfig.titleformatdisplaystring %]" autocomplete="off">
+				</td>
+			</tr>
+			[% END %]
+		</table>
+[% END %]
+<br><hr><br>
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_ABOUT" %]
+	[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_ABOUT_TEXT" | string %]
+[% END %]
+[% PROCESS settings/footer.html %]
+<style type="text/css">
+	.usecommenttaginfo-col-1, .usecommenttaginfo-col-2, .usecommenttaginfo-col-3 {text-align:center; width: 16em;}
+	.usecommenttaginfo-input {width: 100%; box-sizing: border-box;}
+	.usecommenttaginfo-table th {font-weight:bold;}
+	.usecommenttaginfo-table td, .usecommenttaginfo-table th {text-align:center; padding: 0.15em 0.25em 0.15em 0;}
+</style>
