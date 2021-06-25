@@ -164,8 +164,8 @@ sub handler {
 			'browsemenu_tracks' => $browsemenusconfigmatrix->{$browsemenusconfig}->{'browsemenu_tracks'},
 		});
 	}
-	my (@browsemenusconfiglistsorted, @browsemenusconfiglistsortedDisabled);
 
+	my (@browsemenusconfiglistsorted, @browsemenusconfiglistsortedDisabled);
 	foreach my $thisconfig (@{$browsemenusconfiglist}) {
 		if (defined $thisconfig->{enabled}) {
 			push @browsemenusconfiglistsorted, $thisconfig;
@@ -173,8 +173,8 @@ sub handler {
 			push @browsemenusconfiglistsortedDisabled, $thisconfig;
 		}
 	}
-	@browsemenusconfiglistsorted = sort {$a->{browsemenu_name} cmp $b->{browsemenu_name}} @browsemenusconfiglistsorted;
-	@browsemenusconfiglistsortedDisabled = sort {$a->{browsemenu_name} cmp $b->{browsemenu_name}} @browsemenusconfiglistsortedDisabled;
+	@browsemenusconfiglistsorted = sort {lc($a->{browsemenu_name}) cmp lc($b->{browsemenu_name})} @browsemenusconfiglistsorted;
+	@browsemenusconfiglistsortedDisabled = sort {lc($a->{browsemenu_name}) cmp lc($b->{browsemenu_name})} @browsemenusconfiglistsortedDisabled;
 	push (@browsemenusconfiglistsorted, @browsemenusconfiglistsortedDisabled);
 
 	# add empty row

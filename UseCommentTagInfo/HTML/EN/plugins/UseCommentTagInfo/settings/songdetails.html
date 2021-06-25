@@ -10,23 +10,32 @@
 				<col class="usecommenttaginfo-col-2"/>
 				<col class="usecommenttaginfo-col-3"/>
 				<col class="usecommenttaginfo-col-4"/>
+				<col class="usecommenttaginfo-col-5"/>
+				<col class="usecommenttaginfo-col-6"/>
 			</colgroup>
 			<tr>
-				<th style="height:4px;" colspan="4"></th>
+				<th style="height:4px;" colspan="6"></th>
 			</tr>
 			<tr>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_ID" | string %]</th>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_ENABLED" | string %]</th>
 				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING" | string %]</th>
 				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CATEGORY_DISPLAYSTRING" | string %]</th>
 				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_CONTENT_DISPLAYSTRING" | string %]</th>
 				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SONGDETAILS_MENU_POSITION" | string %]</th>
 			</tr>
 			<tr>
-				<th style="height:4px;" colspan="4"></th>
+				<th style="height:4px;" colspan="6"></th>
 			</tr>
 
 			[% FOREACH songdetailsconfig = songdetailsconfigmatrix; idx = loop.count %]
 			<tr>
-				<input type="text" style="display:none;" class="stdedit" name="pref_idNum_[% idx %]" id="idNum" value="[% idx %]" size="1" readonly>
+				<td>
+					<input type="text" class="stdedit" name="pref_idNum_[% idx %]" id="idNum" value="[% idx %]" size="1">
+				</td>
+				<td>
+					<input name="pref_enabled_[% idx %]" id="enabled_[% idx %]"  type="checkbox" [% IF songdetailsconfig.enabled %] checked [% END %]>
+				</td>
 				<td>
 					<input type="text" class="stdedit" name="pref_searchstring_[% idx %]" id="searchstring_[% idx %]" value="[% songdetailsconfig.searchstring %]" autocomplete="off">
 				</td>
@@ -58,8 +67,9 @@
 [% END %]
 [% PROCESS settings/footer.html %]
 <style type="text/css">
-	.usecommenttaginfo-col-1, .usecommenttaginfo-col-2, .usecommenttaginfo-col-3, .usecommenttaginfo-col-4 {text-align:center; width: 16em;}
+	.usecommenttaginfo-col-1, .usecommenttaginfo-col-2 {text-align: center; width: 3em;}
+	.usecommenttaginfo-col-3, .usecommenttaginfo-col-4, .usecommenttaginfo-col-5, .usecommenttaginfo-col-6, .usecommenttaginfo-col-7 {text-align: center; width: 16em;}
 	.usecommenttaginfo-input {width: 100%; box-sizing: border-box;}
-	.usecommenttaginfo-table th {font-weight:bold;}
-	.usecommenttaginfo-table td, .usecommenttaginfo-table th {text-align:center; padding: 0.15em 0.25em 0.15em 0;}
+	.usecommenttaginfo-table th {font-weight: bold;}
+	.usecommenttaginfo-table td, .usecommenttaginfo-table th {text-align: center; padding: 0.15em 0.25em 0.15em 0;}
 </style>

@@ -878,30 +878,30 @@ sub initTrackInfoHandler {
 	my $songdetailsconfigmatrix = $prefs->get('songdetailsconfigmatrix');
 	if (keys %{$songdetailsconfigmatrix} > 0) {
 		foreach my $songdetailsconfig (keys %{$songdetailsconfigmatrix}) {
-			if ($songdetailsconfig ne '') {
-				my $songdetailsconfigID = $songdetailsconfig;
-				$log->debug('songdetailsconfigID = '.$songdetailsconfigID);
-				my $searchstring = $songdetailsconfigmatrix->{$songdetailsconfig}->{'searchstring'};
-				my $contextmenucategoryname = $songdetailsconfigmatrix->{$songdetailsconfig}->{'contextmenucategoryname'};
-				if (defined $searchstring && defined $contextmenucategoryname) {
-					my $contextmenuposition = $songdetailsconfigmatrix->{$songdetailsconfig}->{'contextmenuposition'};
-					my $regID = 'UCTI_TIHregID_'.$songdetailsconfigID;
-					$log->debug('trackinfohandler ID = '.$regID);
-					my $possiblecontextmenupositions = [
-						"after => 'artwork'", # 0
-						"after => 'bottom'", # 1
-						"parent => 'moreinfo', isa => 'top'", # 2
-						"parent => 'moreinfo', isa => 'bottom'" # 3
-					];
-					my $thisPos = @{$possiblecontextmenupositions}[$contextmenuposition];
-					Slim::Menu::TrackInfo->deregisterInfoProvider($regID);
-					Slim::Menu::TrackInfo->registerInfoProvider($regID => (
-						eval($thisPos),
-						func => sub {
-							return getTrackInfo(@_,$songdetailsconfigID);
-						}
-					));
-				}
+			my $enabled = $songdetailsconfigmatrix->{$songdetailsconfig}->{'enabled'};
+			next if (!defined $enabled);
+			my $songdetailsconfigID = $songdetailsconfig;
+			$log->debug('songdetailsconfigID = '.$songdetailsconfigID);
+			my $searchstring = $songdetailsconfigmatrix->{$songdetailsconfig}->{'searchstring'};
+			my $contextmenucategoryname = $songdetailsconfigmatrix->{$songdetailsconfig}->{'contextmenucategoryname'};
+			if (defined $searchstring && defined $contextmenucategoryname) {
+				my $contextmenuposition = $songdetailsconfigmatrix->{$songdetailsconfig}->{'contextmenuposition'};
+				my $regID = 'UCTI_TIHregID_'.$songdetailsconfigID;
+				$log->debug('trackinfohandler ID = '.$regID);
+				my $possiblecontextmenupositions = [
+					"after => 'artwork'", # 0
+					"after => 'bottom'", # 1
+					"parent => 'moreinfo', isa => 'top'", # 2
+					"parent => 'moreinfo', isa => 'bottom'" # 3
+				];
+				my $thisPos = @{$possiblecontextmenupositions}[$contextmenuposition];
+				Slim::Menu::TrackInfo->deregisterInfoProvider($regID);
+				Slim::Menu::TrackInfo->registerInfoProvider($regID => (
+					eval($thisPos),
+					func => sub {
+						return getTrackInfo(@_,$songdetailsconfigID);
+					}
+				));
 			}
 		}
 	}
@@ -946,6 +946,8 @@ sub initTitleFormats {
 	if (keys %{$titleformatsconfigmatrix} > 0) {
 		foreach my $titleformatsconfig (keys %{$titleformatsconfigmatrix}) {
 			if ($titleformatsconfig ne '') {
+				my $enabled = $titleformatsconfigmatrix->{$titleformatsconfig}->{'enabled'};
+				next if (!defined $enabled);
 				my $titleformatsconfigID = $titleformatsconfig;
 				$log->debug('titleformatsconfigID = '.$titleformatsconfigID);
 				my $titleformatname = $titleformatsconfigmatrix->{$titleformatsconfig}->{'titleformatname'};

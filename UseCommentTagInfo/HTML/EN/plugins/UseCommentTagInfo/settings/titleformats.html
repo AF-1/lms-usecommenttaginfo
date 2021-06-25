@@ -9,22 +9,27 @@
 				<col class="usecommenttaginfo-col-1"/>
 				<col class="usecommenttaginfo-col-2"/>
 				<col class="usecommenttaginfo-col-3"/>
+				<col class="usecommenttaginfo-col-4"/>
 			</colgroup>
 			<tr>
-				<th style="height:4px;" colspan="3"></th>
+				<th style="height:4px;" colspan="4"></th>
 			</tr>
 			<tr>
+				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_ENABLED" | string %]</th>
 				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_SEARCHSTRING" | string %]</th>
 				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_NAME" | string %]</th>
 				<th>[% "PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_DISPLAYSTRING" | string %]</th>
 			</tr>
 			<tr>
-				<th style="height:4px;" colspan="3"></th>
+				<th style="height:4px;" colspan="4"></th>
 			</tr>
 
 			[% FOREACH titleformatsconfig = titleformatsconfigmatrix; idx = loop.count %]
 			<tr>
 				<input type="text" style="display:none;" class="stdedit" name="pref_idNum_[% idx %]" id="idNum" value="[% idx %]" size="1" readonly>
+				<td>
+					<input name="pref_enabled_[% idx %]" id="enabled_[% idx %]"  type="checkbox" [% IF titleformatsconfig.enabled %] checked [% END %]>
+				</td>
 				<td>
 					<input type="text" class="stdedit" name="pref_searchstring_[% idx %]" id="searchstring_[% idx %]" value="[% titleformatsconfig.searchstring %]" autocomplete="off">
 				</td>
@@ -44,7 +49,8 @@
 [% END %]
 [% PROCESS settings/footer.html %]
 <style type="text/css">
-	.usecommenttaginfo-col-1, .usecommenttaginfo-col-2, .usecommenttaginfo-col-3 {text-align:center; width: 16em;}
+	.usecommenttaginfo-col-1 {text-align:center; width: 3em;}
+	.usecommenttaginfo-col-2, .usecommenttaginfo-col-3, .usecommenttaginfo-col-4 {text-align:center; width: 16em;}
 	.usecommenttaginfo-input {width: 100%; box-sizing: border-box;}
 	.usecommenttaginfo-table th {font-weight:bold;}
 	.usecommenttaginfo-table td, .usecommenttaginfo-table th {text-align:center; padding: 0.15em 0.25em 0.15em 0;}

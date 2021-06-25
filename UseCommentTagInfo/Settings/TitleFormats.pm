@@ -81,6 +81,7 @@ sub handler {
 
 		for (my $n = 0; $n <= $maxItemNum; $n++) {
 			my $titleformatsconfigID = $paramRef->{"pref_idNum_$n"};
+			my $enabled = $paramRef->{"pref_enabled_$n"} // undef;
 			my $searchstring = trim_leadtail($paramRef->{"pref_searchstring_$n"} // '');
 			next if (($searchstring eq '') || ($searchstring =~ m|[^a-zA-Z0-9 -]|) || ($searchstring =~ m|.{61,}|));
 			my $titleformatname = $paramRef->{"pref_titleformatname_$n"} // '';
@@ -91,6 +92,7 @@ sub handler {
 
 			if (!$searchstringDone{$searchstring} && !$titleformatnameDone{$titleformatname}) {
 				$titleformatsconfigmatrix{$titleformatsconfigID} = {
+					'enabled' => $enabled,
 					'searchstring' => $searchstring,
 					'titleformatname' => $titleformatname,
 					'titleformatdisplaystring' => $titleformatdisplaystring
@@ -108,29 +110,43 @@ sub handler {
 	# push to settings page
 
 	my $titleformatsconfigmatrix = $prefs->get('titleformatsconfigmatrix');
-	my @titleformatsconfiglist;
+	my $titleformatsconfiglist;
 	foreach my $titleformatsconfig (sort keys %{$titleformatsconfigmatrix}) {
 		$log->debug('titleformatsconfig = '.$titleformatsconfig);
 		my $searchstring = $titleformatsconfigmatrix->{$titleformatsconfig}->{'searchstring'};
 		$log->debug('searchstring = '.$searchstring);
-		push (@titleformatsconfiglist, {
+		push (@{$titleformatsconfiglist}, {
+			'enabled' => $titleformatsconfigmatrix->{$titleformatsconfig}->{'enabled'},
 			'searchstring' => $titleformatsconfigmatrix->{$titleformatsconfig}->{'searchstring'},
 			'titleformatname' => $titleformatsconfigmatrix->{$titleformatsconfig}->{'titleformatname'},
 			'titleformatdisplaystring' => $titleformatsconfigmatrix->{$titleformatsconfig}->{'titleformatdisplaystring'}
 		});
 	}
 
+	my (@titleformatsconfiglistsorted, @titleformatsconfiglistsortedDisabled);
+	foreach my $thisconfig (@{$titleformatsconfiglist}) {
+		if (defined $thisconfig->{enabled}) {
+			push @titleformatsconfiglistsorted, $thisconfig;
+		} else {
+			push @titleformatsconfiglistsortedDisabled, $thisconfig;
+		}
+	}
+	@titleformatsconfiglistsorted = sort {$a->{titleformatname} cmp $b->{titleformatname}} @titleformatsconfiglistsorted;
+	@titleformatsconfiglistsortedDisabled = sort {$a->{titleformatname} cmp $b->{titleformatname}} @titleformatsconfiglistsortedDisabled;
+	push (@titleformatsconfiglistsorted, @titleformatsconfiglistsortedDisabled);
+
 	# add empty field
-	if ((scalar @titleformatsconfiglist + 1) < $maxItemNum) {
-		push(@titleformatsconfiglist, {
+	if ((scalar @titleformatsconfiglistsorted + 1) < $maxItemNum) {
+		push(@titleformatsconfiglistsorted, {
+			'enabled' => undef,
 			'searchstring' => '',
 			'titleformatname' => '',
 			'titleformatdisplaystring' => ''
 		});
 	}
 
-	$paramRef->{titleformatsconfigmatrix} = \@titleformatsconfiglist;
-	$paramRef->{itemcount} = scalar @titleformatsconfiglist;
+	$paramRef->{titleformatsconfigmatrix} = \@titleformatsconfiglistsorted;
+	$paramRef->{itemcount} = scalar @titleformatsconfiglistsorted;
 	$log->debug('page list = '.Dumper($paramRef->{titleformatsconfigmatrix}));
 
 	$result = $class->SUPER::handler($client, $paramRef);

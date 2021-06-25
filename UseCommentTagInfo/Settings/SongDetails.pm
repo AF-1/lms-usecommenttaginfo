@@ -80,6 +80,8 @@ sub handler {
 
 		for (my $n = 0; $n <= $maxItemNum; $n++) {
 			my $songdetailsconfigID = $paramRef->{"pref_idNum_$n"};
+			next if (!$songdetailsconfigID || $songdetailsconfigID eq '' || is_integer($songdetailsconfigID) != 1);
+			my $enabled = $paramRef->{"pref_enabled_$n"} // undef;
 			my $searchstring = trim_leadtail($paramRef->{"pref_searchstring_$n"} // '');
 			next if (($searchstring eq '') || ($searchstring =~ m|[^a-zA-Z0-9 -]|) || ($searchstring =~ m|.{61,}|));
 			my $contextmenucategoryname = trim_leadtail($paramRef->{"pref_contextmenucategoryname_$n"} // '');
@@ -87,9 +89,9 @@ sub handler {
 			my $contextmenucategorycontent = trim_leadtail($paramRef->{"pref_contextmenucategorycontent_$n"} // '');
 			next if ($contextmenucategorycontent eq '');
 			my $contextmenuposition = $paramRef->{"pref_contextmenuposition_$n"};
-
 			if (!$searchstringDone{$searchstring}) {
 				$songdetailsconfigmatrix{$songdetailsconfigID} = {
+					'enabled' => $enabled,
 					'searchstring' => $searchstring,
 					'contextmenucategoryname' => $contextmenucategoryname,
 					'contextmenucategorycontent' => $contextmenucategorycontent,
@@ -107,12 +109,13 @@ sub handler {
 	# push to settings page
 
 	my $songdetailsconfigmatrix = $prefs->get('songdetailsconfigmatrix');
-	my @songdetailsconfiglist;
+	my $songdetailsconfiglist;
 	foreach my $songdetailsconfig (sort keys %{$songdetailsconfigmatrix}) {
 		$log->debug('songdetailsconfig = '.$songdetailsconfig);
 		my $searchstring = $songdetailsconfigmatrix->{$songdetailsconfig}->{'searchstring'};
 		$log->debug('searchstring = '.$searchstring);
-		push (@songdetailsconfiglist, {
+		push (@{$songdetailsconfiglist}, {
+			'enabled' => $songdetailsconfigmatrix->{$songdetailsconfig}->{'enabled'},
 			'searchstring' => $songdetailsconfigmatrix->{$songdetailsconfig}->{'searchstring'},
 			'contextmenucategoryname' => $songdetailsconfigmatrix->{$songdetailsconfig}->{'contextmenucategoryname'},
 			'contextmenucategorycontent' => $songdetailsconfigmatrix->{$songdetailsconfig}->{'contextmenucategorycontent'},
@@ -120,9 +123,21 @@ sub handler {
 		});
 	}
 
+	my (@songdetailsconfiglistsorted, @songdetailsconfiglistsortedDisabled);
+	foreach my $thisconfig (@{$songdetailsconfiglist}) {
+		if (defined $thisconfig->{enabled}) {
+			push @songdetailsconfiglistsorted, $thisconfig;
+		} else {
+			push @songdetailsconfiglistsortedDisabled, $thisconfig;
+		}
+	}
+	@songdetailsconfiglistsortedDisabled = sort {lc($a->{contextmenucategoryname}) cmp lc($b->{contextmenucategoryname})} @songdetailsconfiglistsortedDisabled;
+	push (@songdetailsconfiglistsorted, @songdetailsconfiglistsortedDisabled);
+
 	# add empty field
-	if ((scalar @songdetailsconfiglist + 1) < $maxItemNum) {
-		push(@songdetailsconfiglist, {
+	if ((scalar @songdetailsconfiglistsorted + 1) < $maxItemNum) {
+		push(@songdetailsconfiglistsorted, {
+			'enabled' => undef,
 			'searchstring' => '',
 			'contextmenucategoryname' => '',
 			'contextmenucategorycontent' => '',
@@ -130,8 +145,8 @@ sub handler {
 		});
 	}
 
-	$paramRef->{songdetailsconfigmatrix} = \@songdetailsconfiglist;
-	$paramRef->{itemcount} = scalar @songdetailsconfiglist;
+	$paramRef->{songdetailsconfigmatrix} = \@songdetailsconfiglistsorted;
+	$paramRef->{itemcount} = scalar @songdetailsconfiglistsorted;
 	$log->debug('page list = '.Dumper($paramRef->{songdetailsconfigmatrix}));
 
 	$result = $class->SUPER::handler($client, $paramRef);
@@ -150,6 +165,10 @@ sub trim_leadtail {
 	$str =~ s{^\s+}{};
 	$str =~ s{\s+$}{};
 	return $str;
+}
+
+sub is_integer {
+	defined $_[0] && $_[0] =~ /^[+-]?\d+$/;
 }
 
 1;
