@@ -69,9 +69,6 @@ sub handler {
 	}
 	$params->{'subpages'} = \%currentSubPages;
 	$params->{'subpage'} = $class->currentPage($client,$params);
-	my $pluginversion = Slim::Utils::PluginManager->dataForPlugin('Plugins::UseCommentTagInfo::Plugin')->{'version'} // 'n/a';
-	my $settingsgrouptitle = string('PLUGIN_USECOMMENTTAGINFO').' ('.$pluginversion.')';
-	$params->{'settingsgrouptitle'} = $settingsgrouptitle;
 	return $class->SUPER::handler($client, $params);
 }
 

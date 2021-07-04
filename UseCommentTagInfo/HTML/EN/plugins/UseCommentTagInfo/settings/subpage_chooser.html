@@ -1,6 +1,4 @@
-[% WRAPPER settingGroup title=settingsgrouptitle desc="" %]
-	<div class="prefDesc">[% "PLUGIN_USECOMMENTTAGINFO_DESC" | string %]</div>
-[% END %]
+<br>
 [% IF subpages.size>1 %]
 [% WRAPPER settingGroup title="PLUGIN_USECOMMENTTAGINFO_SUBPAGE" desc="PLUGIN_USECOMMENTTAGINFO_SUBPAGE_DESC" %]
 	<select class="stdedit" name="subpage" id="subpage" onchange="location.href=options[selectedIndex].value">

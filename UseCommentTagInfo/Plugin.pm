@@ -163,7 +163,7 @@ sub initVirtualLibraries {
 			$log->debug('VLID: '.$thisVLID.' - RealID: '.$thisVLrealID);
 			if (starts_with($thisVLID, 'UCTI_VLID_') == 0) {
 				my $VLisinBrowseMenusConfigMatrix = 0;
-				foreach my $browsemenusconfig (sort { $browsemenusconfigmatrix->{$a}->{browsemenu_name} cmp $browsemenusconfigmatrix->{$b}->{browsemenu_name} } keys %{$browsemenusconfigmatrix}) {
+				foreach my $browsemenusconfig (sort {lc($browsemenusconfigmatrix->{$a}->{browsemenu_name}) cmp lc($browsemenusconfigmatrix->{$b}->{browsemenu_name})} keys %{$browsemenusconfigmatrix}) {
 					next if (!defined ($browsemenusconfigmatrix->{$browsemenusconfig}->{'enabled'}));
 					my $searchstring = $browsemenusconfigmatrix->{$browsemenusconfig}->{'searchstring'};
 					my $searchstringexclude = $browsemenusconfigmatrix->{$browsemenusconfig}->{'searchstringexclude'};
@@ -187,7 +187,7 @@ sub initVirtualLibraries {
 
 		# create/register VLs that don't exist yet
 
-		foreach my $browsemenusconfig (sort { $browsemenusconfigmatrix->{$a}->{browsemenu_name} cmp $browsemenusconfigmatrix->{$b}->{browsemenu_name} } keys %{$browsemenusconfigmatrix}) {
+		foreach my $browsemenusconfig (sort {lc($browsemenusconfigmatrix->{$a}->{browsemenu_name}) cmp lc($browsemenusconfigmatrix->{$b}->{browsemenu_name})} keys %{$browsemenusconfigmatrix}) {
 			my $enabled = $browsemenusconfigmatrix->{$browsemenusconfig}->{'enabled'};
 			next if (!defined $enabled);
 			my $searchstring = $browsemenusconfigmatrix->{$browsemenusconfig}->{'searchstring'};
@@ -232,36 +232,13 @@ sub initVirtualLibraries {
 					$library = {
 						id => $VLID,
 						name => $browsemenu_name,
-						sql => qq{
-							INSERT OR IGNORE INTO library_track (library, track)
-							SELECT '%s', tracks.id
-							FROM tracks
-							LEFT JOIN comments comments ON comments.track = tracks.id
-							WHERE
-								comments.value LIKE "%%$searchstring%%"
-								AND tracks.audio = 1
-								AND not exists(select * FROM comments
-								where
-									comments.track=tracks.id AND
-									comments.value LIKE "%%$searchstringexclude%%"
-									)
-							GROUP by tracks.id
-						},
+						sql => qq{insert or ignore into library_track (library, track) select '%s', tracks.id from tracks left join comments comments on comments.track = tracks.id where comments.value like "%%$searchstring%%" and tracks.audio = 1 and not exists(select * from comments where comments.track=tracks.id and comments.value like "%%$searchstringexclude%%") group by tracks.id},
 					};
 				} else {
 					$library = {
 						id => $VLID,
 						name => $browsemenu_name,
-						sql => qq{
-							INSERT OR IGNORE INTO library_track (library, track)
-							SELECT '%s', tracks.id
-							FROM tracks
-							LEFT JOIN comments comments ON comments.track = tracks.id
-							WHERE
-								comments.value LIKE "%%$searchstring%%" AND
-								tracks.audio = 1
-							GROUP by tracks.id
-						},
+						sql => qq{insert or ignore into library_track (library, track) select '%s', tracks.id from tracks left join comments comments on comments.track = tracks.id where comments.value like "%%$searchstring%%" and tracks.audio = 1 group by tracks.id},
 					};
 				}
 
@@ -291,44 +268,13 @@ sub initVirtualLibraries {
 		$compisrandomlibrary = {
 			id => 'UCTI_HOMEMENUVLID_COMPIS_EXCLUDEDGENRES',
 			name => string('PLUGIN_USECOMMENTTAGINFO_VLNAME_COMPIS_EXCLUDEDGENRES'),
-			sql => qq{
-				INSERT OR IGNORE INTO library_track (library, track)
-				SELECT '%s', tracks.id
-				FROM tracks,albums
-					LEFT JOIN comments comments ON comments.track = tracks.id
-						WHERE
-							albums.id=tracks.album AND
-							albums.compilation=1 AND
-							tracks.audio = 1
-
-							and not exists(select * FROM comments
-								where
-									comments.track=tracks.id AND
-									comments.value LIKE '%%EoJ%%'
-									)
-							AND not exists(select * from genre_track,genres
-								where
-									genre_track.track=tracks.id and
-									genre_track.genre=genres.id and
-									genres.name in ($genreexcludelist))
-					GROUP by tracks.id
-						},
+			sql => qq{insert or ignore into library_track (library, track) select '%s', tracks.id from tracks,albums left join comments comments on comments.track = tracks.id where albums.id=tracks.album and albums.compilation=1 and tracks.audio = 1 and not exists(select * from comments where comments.track=tracks.id and comments.value like '%%EoJ%%') and not exists(select * from genre_track,genres where genre_track.track=tracks.id and genre_track.genre=genres.id and genres.name in ($genreexcludelist)) group by tracks.id},
 		};
 	} else {
 		$compisrandomlibrary = {
 			id => 'UCTI_HOMEMENUVLID_COMPIS_EXCLUDEDGENRES',
 			name => string('PLUGIN_USECOMMENTTAGINFO_VLNAME_COMPIS_EXCLUDEDGENRES'),
-			sql => qq{
-				INSERT OR IGNORE INTO library_track (library, track)
-				SELECT '%s', tracks.id
-				FROM tracks,albums
-					LEFT JOIN comments comments ON comments.track = tracks.id
-						WHERE
-							albums.id=tracks.album AND
-							albums.compilation=1 AND
-							tracks.audio = 1
-					GROUP by tracks.id
-						},
+			sql => qq{insert or ignore into library_track (library, track) select '%s', tracks.id from tracks,albums left join comments comments on comments.track = tracks.id where albums.id=tracks.album and albums.compilation=1 and tracks.audio = 1 group by tracks.id},
 		};
 	}
 	if (defined $compisrandom) {
@@ -351,23 +297,7 @@ sub initVirtualLibraries {
 	my $operanoxmas_library = {
 		id => 'UCTI_VLID_OPERANOXMAS',
 		name => string('PLUGIN_USECOMMENTTAGINFO_VLNAME_OPERANOXMAS'),
-		sql => qq{
-			INSERT OR IGNORE INTO library_track (library, track)
-			SELECT '%s', tracks.id
-			FROM tracks
-				JOIN genre_track on
-					tracks.id=genre_track.track
-				JOIN genres on
-					genre_track.genre=genres.id and genre_track.genre=genres.id
-				LEFT JOIN comments as excludecomments on
-					tracks.id=excludecomments.track and (excludecomments.value like '%%Christmas%%' OR excludecomments.value like '%%never%%')
-				WHERE
-						tracks.audio=1
-						and genres.name in ('Classical - Opera', 'Opera')
-						and excludecomments.id is null
-						and tracks.secs>90
-				GROUP by tracks.id
-		},
+		sql => qq{insert or ignore into library_track (library, track) select '%s', tracks.id from tracks JOIN genre_track on tracks.id=genre_track.track JOIN genres on genre_track.genre=genres.id and genre_track.genre=genres.id left join comments as excludecomments on tracks.id=excludecomments.track and (excludecomments.value like '%%Christmas%%' OR excludecomments.value like '%%never%%') where tracks.audio=1 and genres.name in ('Classical - Opera', 'Opera') and excludecomments.id is null and tracks.secs>90 group by tracks.id},
 	};
 	if (defined $operanoxmas) {
 		my $VLalreadyexists = Slim::Music::VirtualLibraries->getRealId($operanoxmas_library->{id});
@@ -431,23 +361,25 @@ sub initVLMenus {
 					my ($client, $cb, $args, $pt) = @_;
 					my @browseMenus = ();
 
-					foreach my $browsemenusconfig (sort { $browsemenusconfigmatrix->{$a}->{browsemenu_name} cmp $browsemenusconfigmatrix->{$b}->{browsemenu_name} } keys %{$browsemenusconfigmatrix}) {
+					foreach my $browsemenusconfig (sort {lc($browsemenusconfigmatrix->{$a}->{browsemenu_name}) cmp lc($browsemenusconfigmatrix->{$b}->{browsemenu_name})} keys %{$browsemenusconfigmatrix}) {
 						my $enabled = $browsemenusconfigmatrix->{$browsemenusconfig}->{'enabled'};
-						if (defined $enabled) {
-							my $searchstring = $browsemenusconfigmatrix->{$browsemenusconfig}->{'searchstring'};
-							$log->debug('searchstring = '.$searchstring);
-							my $searchstringexclude = $browsemenusconfigmatrix->{$browsemenusconfig}->{'searchstringexclude'};
-							$log->debug('searchstringexclude = '.Dumper($searchstringexclude));
-							my $VLID;
-							if (defined $searchstringexclude && ($searchstringexclude ne '')) {
-								$VLID = 'UCTI_VLID_'.trim_all(uc($searchstring.$searchstringexclude));
-							} else {
-								$VLID = 'UCTI_VLID_'.trim_all(uc($searchstring));
-							}
-							$log->debug('VLID = '.$VLID);
+						next if (!$enabled);
+						my $searchstring = $browsemenusconfigmatrix->{$browsemenusconfig}->{'searchstring'};
+						$log->debug('searchstring = '.$searchstring);
+						my $searchstringexclude = $browsemenusconfigmatrix->{$browsemenusconfig}->{'searchstringexclude'};
+						$log->debug('searchstringexclude = '.Dumper($searchstringexclude));
+						my $VLID;
+						if (defined $searchstringexclude && ($searchstringexclude ne '')) {
+							$VLID = 'UCTI_VLID_'.trim_all(uc($searchstring.$searchstringexclude));
+						} else {
+							$VLID = 'UCTI_VLID_'.trim_all(uc($searchstring));
+						}
+						$log->debug('VLID = '.$VLID);
+						my $library_id = Slim::Music::VirtualLibraries->getRealId($VLID);
+						next if (!$library_id);
 
-							my $pt = {library_id => Slim::Music::VirtualLibraries->getRealId($VLID)};
-
+						if (defined $enabled && defined $library_id) {
+							my $pt = {library_id => $library_id};
 							my $browsemenu_name = $browsemenusconfigmatrix->{$browsemenusconfig}->{'browsemenu_name'};
 							$log->debug('browsemenu_name = '.$browsemenu_name);
 							my $browsemenu_contributor_allartists = $browsemenusconfigmatrix->{$browsemenusconfig}->{'browsemenu_contributor_allartists'};
@@ -646,7 +578,7 @@ sub initVLMenus {
 							if (defined $browsemenu_albums_compisonly) {
 								$pt = {library_id => Slim::Music::VirtualLibraries->getRealId($VLID),
 										artist_id => Slim::Schema->variousArtistsObject->id,
-								 };
+								};
 								push @browseMenus,{
 									type => 'link',
 									name => $browsemenu_name.' - '.string('PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_ALBUMS_COMPIS_ONLY'),
@@ -715,7 +647,7 @@ sub initVLMenus {
 							if (defined $browsemenu_tracks) {
 								$pt = {library_id => Slim::Music::VirtualLibraries->getRealId($VLID),
 										sort => 'track',
-										menuStyle => 'menuStyle:album' };
+										menuStyle => 'menuStyle:album'};
 								push @browseMenus,{
 									type => 'link',
 									name => $browsemenu_name.' - '.string('PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_TRACKS'),
@@ -1031,7 +963,7 @@ sub registerCustomString {
 		$token =~ s/\s/_/g;
 		$token = 'PLUGIN_UCTI_BROWSEMENUS_' . $token;
 		Slim::Utils::Strings::storeExtraStrings([{
-			strings => { EN => $string},
+			strings => {EN => $string},
 			token => $token,
 		}]) if !Slim::Utils::Strings::stringExists($token);
 		return $token;
