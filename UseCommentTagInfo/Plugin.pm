@@ -45,6 +45,8 @@ my $log = Slim::Utils::Log->addLogCategory({
 });
 my $serverPrefs = preferences('server');
 my $prefs = preferences('plugin.usecommenttaginfo');
+my $isPostScanCall = 0;
+
 
 sub initPlugin {
 	my $class = shift;
@@ -60,6 +62,10 @@ sub initPlugin {
 		Plugins::UseCommentTagInfo::Settings::BrowseMenus->new($class);
 		Plugins::UseCommentTagInfo::Settings::Extras->new($class);
 	}
+	Slim::Control::Request::subscribe(sub{
+		initVirtualLibrariesDelayed();
+		$isPostScanCall = 1;
+	},[['rescan'],['done']]);
 }
 
 sub initPrefs {
@@ -207,10 +213,14 @@ sub initVirtualLibraries {
 			$log->debug('VLID = '.$VLID);
 
 			my $VLalreadyexists = Slim::Music::VirtualLibraries->getRealId($VLID);
-			$log->debug('Check if VL already exists. Returned library id = '.Dumper($VLalreadyexists));
+			$log->debug('Check if VL already exists. Returned real library id = '.Dumper($VLalreadyexists));
 
  			if (defined $VLalreadyexists) {
  				$log->debug('VL \''.$VLID.'\' already exists. No need to recreate it.');
+ 				if ($isPostScanCall == 1) {
+					$log->debug('This is a post-scan call so let\'s refresh VL \''.$VLID.'\'.');
+					Slim::Music::VirtualLibraries->rebuild($VLalreadyexists);
+ 				}
  				next;
  			};
  			$log->debug('VL \''.$VLID.'\' has not been created yet. Creating & registering it now.');
@@ -247,6 +257,7 @@ sub initVirtualLibraries {
 				Slim::Music::VirtualLibraries->rebuild($library->{id});
 			}
 		}
+		$isPostScanCall = 0;
 	}
 
 	### create/register VLs for predefined browse menus
@@ -758,7 +769,7 @@ sub initVLMenus {
 			Slim::Menu::BrowseLibrary->registerNode($_);
 		}
 	}
-	$log->info('Finished initializing VL menus');
+	$log->debug('Finished initializing VL menus');
 }
 
 sub initPLtoplevellink {
@@ -928,7 +939,7 @@ sub initVirtualLibrariesDelayed {
 	$log->debug("Killing existing VL init timers");
 	Slim::Utils::Timers::killOneTimer(undef, \&initVirtualLibraries);
 	$log->debug("Scheduling a delayed VL init");
-	Slim::Utils::Timers::setTimer(undef, Time::HiRes::time() + 2, \&initVirtualLibraries);
+	Slim::Utils::Timers::setTimer(undef, Time::HiRes::time() + 5, \&initVirtualLibraries);
 }
 
 sub initExtraMenusDelayed {
