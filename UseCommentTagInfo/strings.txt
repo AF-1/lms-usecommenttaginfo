@@ -2,7 +2,7 @@ PLUGIN_USECOMMENTTAGINFO
 	EN	Use Comment Tag Info
 
 PLUGIN_USECOMMENTTAGINFO_DESC
-	EN	This plugin uses (key)words in your music files' comment tags to: add extra information to the song details page, define and display custom title formats, create virtual libraries with browse menus, skip songs with CustomSkip.
+	EN	This plugin uses (key)words in your music files' comment tags to: add extra information to the song details page, define and display custom title formats, create virtual libraries with browse menus.
 
 PLUGIN_USECOMMENTTAGINFO_LOG_DESC
 	EN	Log of plugin UseCommentTagInfo

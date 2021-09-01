@@ -346,9 +346,9 @@ sub initVLMenus {
 		if ($browsemenus_parentfoldericon == 1) {
 			$iconPath = 'plugins/UseCommentTagInfo/html/images/browsemenupfoldericon.png';
 		} elsif ($browsemenus_parentfoldericon == 2) {
-			$iconPath = 'plugins/UseCommentTagInfo/html/images/folder.png';
+			$iconPath = 'plugins/UseCommentTagInfo/html/images/folder_svg.png';
 		} else {
-			$iconPath = 'plugins/UseCommentTagInfo/html/images/music.png';
+			$iconPath = 'plugins/UseCommentTagInfo/html/images/music_svg.png';
 		}
 		$log->debug('browsemenus_parentfoldericon = '.$browsemenus_parentfoldericon);
 		$log->debug('iconPath = '.$iconPath);
@@ -732,8 +732,8 @@ sub initVLMenus {
 					mode => 'randomalbums',
 					sort => 'random'},
 			feed => \&Slim::Menu::BrowseLibrary::_albums,
-			icon => 'plugins/UseCommentTagInfo/html/images/randomcompis.png',
-			jiveIcon => 'plugins/UseCommentTagInfo/html/images/randomcompis.png',
+			icon => 'plugins/UseCommentTagInfo/html/images/randomcompis_svg.png',
+			jiveIcon => 'plugins/UseCommentTagInfo/html/images/randomcompis_svg.png',
 			homeMenuText => 'PLUGIN_USECOMMENTTAGINFO_MENUNAME_COMPISRANDOM',
 			condition => \&Slim::Menu::BrowseLibrary::isEnabledNode,
 			id => 'UCTI_HOMEMENU_COMPIS_EXCLUDEDGENRES_BROWSEMENU_COMPIS_RANDOM',
@@ -753,8 +753,8 @@ sub initVLMenus {
 						mode => 'genres',
 						sort => 'title'},
 			feed => \&Slim::Menu::BrowseLibrary::_genres,
-			icon => 'plugins/UseCommentTagInfo/html/images/compisbygenre.png',
-			jiveIcon => 'plugins/UseCommentTagInfo/html/images/compisbygenre.png',
+			icon => 'plugins/UseCommentTagInfo/html/images/compisbygenre_svg.png',
+			jiveIcon => 'plugins/UseCommentTagInfo/html/images/compisbygenre_svg.png',
 			homeMenuText => 'PLUGIN_USECOMMENTTAGINFO_MENUNAME_COMPISBYGENRE',
 			condition => \&Slim::Menu::BrowseLibrary::isEnabledNode,
 			id => 'UCTI_HOMEMENU_COMPIS_BROWSEMENU_COMPIS_BYGENRE',
