@@ -26,6 +26,7 @@ use utf8;
 
 use base qw(Slim::Plugin::Base);
 
+use Scalar::Util qw(blessed);
 use Slim::Utils::Log;
 use Slim::Utils::Strings qw(string);
 use Slim::Utils::Prefs;
@@ -359,7 +360,7 @@ sub initVLMenus {
 				push @enabledbrowsemenus, $thisconfig;
 			}
 		}
-		$log->debug("enabled configs = ".scalar(@enabledbrowsemenus));
+		$log->debug('enabled configs = '.scalar(@enabledbrowsemenus));
 
 		### browse menus in UCTI parent folder (custom browse menus + operanoxmas)
 
@@ -859,6 +860,19 @@ sub getTrackInfo {
 		$log->warn('Warning: not available until library scan is completed');
 		return;
 	}
+
+	# check if remote track is part of online library
+	if ((Slim::Music::Info::isRemoteURL($url) == 1)) {
+		$log->info('ignoring remote track without comment tag: '.$url);
+		return;
+	}
+
+	# check for dead/moved local tracks
+	if ((Slim::Music::Info::isRemoteURL($url) != 1) && (!defined($track->filesize))) {
+		$log->info('track dead or moved??? Track URL: '.$url);
+		return;
+	}
+
 	my $songdetailsconfigmatrix = $prefs->get('songdetailsconfigmatrix');
 	my $songdetailsconfig = $songdetailsconfigmatrix->{$songdetailsconfigID};
 		if (($songdetailsconfig->{'searchstring'}) && ($songdetailsconfig->{'contextmenucategoryname'}) && ($songdetailsconfig->{'contextmenucategorycontent'})) {
@@ -909,14 +923,38 @@ sub initTitleFormats {
 }
 
 sub getTitleFormat {
-	my $TF_string = '';
+	my $track = shift;
+	my $titleformatsconfigID = shift;
+	my $TF_string = HTML::Entities::decode_entities('&#xa0;'); # "NO-BREAK SPACE" - HTML Entity (hex): &#xa0;
+
 	if (Slim::Music::Import->stillScanning) {
 		$log->warn('Warning: not available until library scan is completed');
 		return $TF_string;
 	}
-	my $track = shift;
-	my $titleformatsconfigID = shift;
 	$log->debug('titleformatsconfigID = '.$titleformatsconfigID);
+
+	if ($track && !blessed($track)) {
+		$log->debug('track is not blessed');
+ 		$track = Slim::Schema->find('Track', $track->{id});
+		if (!blessed($track)) {
+			$log->debug('No track object found');
+			return $TF_string;
+		}
+	}
+	my $trackURL = $track->url;
+
+	# check if remote track is part of online library
+	if ((Slim::Music::Info::isRemoteURL($trackURL) == 1)) {
+		$log->info('ignoring remote track without comment tag: '.$trackURL);
+		return $TF_string;
+	}
+
+	# check for dead/moved local tracks
+	if ((Slim::Music::Info::isRemoteURL($trackURL) != 1) && (!defined($track->filesize))) {
+		$log->info('track dead or moved??? Track URL: '.$trackURL);
+		return $TF_string;
+	}
+
 	my $titleformatsconfigmatrix = $prefs->get('titleformatsconfigmatrix');
 	my $titleformatsconfig = $titleformatsconfigmatrix->{$titleformatsconfigID};
 	my $titleformatname = $titleformatsconfig->{'titleformatname'};
@@ -936,17 +974,17 @@ sub getTitleFormat {
 
 sub initVirtualLibrariesDelayed {
 	$log->debug('Delayed VL init to prevent multiple inits');
-	$log->debug("Killing existing VL init timers");
+	$log->debug('Killing existing VL init timers');
 	Slim::Utils::Timers::killOneTimer(undef, \&initVirtualLibraries);
-	$log->debug("Scheduling a delayed VL init");
+	$log->debug('Scheduling a delayed VL init');
 	Slim::Utils::Timers::setTimer(undef, Time::HiRes::time() + 5, \&initVirtualLibraries);
 }
 
 sub initExtraMenusDelayed {
 	$log->debug('Delayed extra menus init invoked to prevent multiple inits');
-	$log->debug("Killing existing timers");
+	$log->debug('Killing existing timers');
 	Slim::Utils::Timers::killOneTimer(undef, \&initExtraMenus);
-	$log->debug("Scheduling a delayed extra menus init");
+	$log->debug('Scheduling a delayed extra menus init');
 	Slim::Utils::Timers::setTimer(undef, Time::HiRes::time() + 2, \&initExtraMenus);
 }
 
@@ -991,84 +1029,6 @@ sub getVirtualLibraries {
 	} keys %{$libraries} if keys %{$libraries};
 
 	return \%libraries;
-}
-
-sub getCustomSkipFilterTypes {
-	my @result = ();
-
-	my %commentkeyword = (
-		'id' => 'usecommenttaginfo_commentkeyword',
-		'name' => 'Comment includes keyword',
-		'mixtype' => 'track',
-		'description' => 'Skip songs with specified keyword in comment tag (case insensitive)',
-		'mixonly' => 1,
-		'parameters' => [
-			{
-				'id' => 'keyword',
-				'type' => 'text',
-				'name' => 'Enter keyword'
-			}
-		]
-	);
-	push @result, \%commentkeyword;
-
-	my %tracktitlekeyword = (
-		'id' => 'usecommenttaginfo_tracktitlekeyword',
-		'name' => 'Track title includes keyword',
-		'mixtype' => 'track',
-		'description' => 'Skip songs with specified keyword in track title (case insensitive)',
-		'mixonly' => 1,
-		'parameters' => [
-			{
-				'id' => 'titlekeyword',
-				'type' => 'text',
-				'name' => 'Enter keyword'
-			}
-		]
-	);
-	push @result, \%tracktitlekeyword;
-
-	return \@result;
-}
-
-sub checkCustomSkipFilterType {
-	my $client = shift;
-	my $filter = shift;
-	my $track = shift;
-
-	my $parameters = $filter->{'parameter'};
-	if($filter->{'id'} eq 'usecommenttaginfo_commentkeyword') {
-		my $thiscomment = $track->comment;
-		for my $parameter (@{$parameters}) {
-			if($parameter->{'id'} eq 'keyword') {
-				my $keywords = $parameter->{'value'};
-				my $keyword = $keywords->[0] if(defined($keywords) && scalar(@{$keywords})>0);
-
-				if (defined $thiscomment && $thiscomment ne '') {
-					if (index(lc($thiscomment), lc($keyword)) != -1) {
-						return 1;
-					}
-					last;
-				}
-			}
-		}
-	} elsif($filter->{'id'} eq 'usecommenttaginfo_tracktitlekeyword') {
-		my $thistracktitle = $track->title;
-		for my $parameter (@{$parameters}) {
-			if($parameter->{'id'} eq 'titlekeyword') {
-				my $titlekeywords = $parameter->{'value'};
-				my $titlekeyword = $titlekeywords->[0] if(defined($titlekeywords) && scalar(@{$titlekeywords})>0);
-
-				if (defined $thistracktitle && $thistracktitle ne '') {
-					if (index(lc($thistracktitle), lc($titlekeyword)) != -1) {
-						return 1;
-					}
-					last;
-				}
-			}
-		}
-	}
-	return 0;
 }
 
 sub addTitleFormat {
