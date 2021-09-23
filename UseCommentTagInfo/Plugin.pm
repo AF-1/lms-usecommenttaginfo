@@ -269,13 +269,7 @@ sub initVirtualLibraries {
 	if (defined $compisrandom_genreexcludelist && $compisrandom_genreexcludelist ne '') {
 		my @genres = split /,/, $compisrandom_genreexcludelist;
 		my $genreexcludelist = '';
-		foreach my $genre (@genres) {
-			if ($genreexcludelist ne '') {
-				$genreexcludelist = $genreexcludelist.",'".$genre."'";
-			} else {
-				$genreexcludelist = "'".$genre."'";
-			}
-		}
+		$genreexcludelist = join ',', map qq/'$_'/, @genres;
 		$log->debug('compis random genre exclude list = '.$genreexcludelist);
 		$compisrandomlibrary = {
 			id => 'UCTI_HOMEMENUVLID_COMPIS_EXCLUDEDGENRES',
@@ -863,13 +857,13 @@ sub getTrackInfo {
 
 	# check if remote track is part of online library
 	if ((Slim::Music::Info::isRemoteURL($url) == 1)) {
-		$log->info('ignoring remote track without comment tag: '.$url);
+		$log->debug('ignoring remote track without comment tag: '.$url);
 		return;
 	}
 
 	# check for dead/moved local tracks
 	if ((Slim::Music::Info::isRemoteURL($url) != 1) && (!defined($track->filesize))) {
-		$log->info('track dead or moved??? Track URL: '.$url);
+		$log->debug('track dead or moved??? Track URL: '.$url);
 		return;
 	}
 
