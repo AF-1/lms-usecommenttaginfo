@@ -65,7 +65,7 @@ sub pages {
 }
 
 sub prefs {
-	return ($prefs, qw(compisbygenre compisrandom operanoxmas));
+	return ($prefs, qw(vlstempdisabled compisbygenre compisrandom operanoxmas));
 }
 
 sub handler {

@@ -48,7 +48,6 @@ my $serverPrefs = preferences('server');
 my $prefs = preferences('plugin.usecommenttaginfo');
 my $isPostScanCall = 0;
 
-
 sub initPlugin {
 	my $class = shift;
 	$class->SUPER::initPlugin(@_);
@@ -150,6 +149,29 @@ sub postinitPlugin {
 
 sub initVirtualLibraries {
 	$log->debug('Start initializing VLs.');
+
+	## check if VLs are globally disabled
+	if (defined ($prefs->get('vlstempdisabled'))) {
+		# unregister VLs
+		$log->debug('browse menus/VLs globally disabled. Unregistering UCTI VLs.');
+		my $libraries = Slim::Music::VirtualLibraries->getLibraries();
+		foreach my $thisVLrealID (keys %{$libraries}) {
+			my $thisVLID = $libraries->{$thisVLrealID}->{'id'};
+			$log->debug('VLID: '.$thisVLID.' - RealID: '.$thisVLrealID);
+			if (starts_with($thisVLID, 'UCTI_VLID_') == 0) {
+				Slim::Music::VirtualLibraries->unregisterLibrary($thisVLrealID);
+			}
+		}
+
+		# unregister menus
+		my $browsemenus_parentfolderID = 'UCTI_MYCUSTOMMENUS';
+		Slim::Menu::BrowseLibrary->deregisterNode($browsemenus_parentfolderID);
+		Slim::Menu::BrowseLibrary->deregisterNode('UCTI_HOMEMENU_COMPIS_EXCLUDEDGENRES_BROWSEMENU_COMPIS_RANDOM');
+		Slim::Menu::BrowseLibrary->deregisterNode('UCTI_HOMEMENU_COMPIS_BROWSEMENU_COMPIS_BYGENRE');
+
+		return;
+	}
+
 	my $started = time();
 	my $browsemenusconfigmatrix = $prefs->get('browsemenusconfigmatrix');
 	my $compisrandom = $prefs->get('compisrandom');

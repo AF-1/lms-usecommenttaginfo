@@ -72,6 +72,12 @@ PLUGIN_USECOMMENTTAGINFO_SETTINGS_TITLEFORMATS_ABOUT_TEXT
 PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS
 	EN	Browse menus
 
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_VLSENABLED
+	EN	Temp. disable <i>all</i> browse menus
+
+PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_VLSENABLED_DESC
+	EN	Use this to <i>temporary</i> disable <b>all</b> browse menus and virtual libraries listed here in one go. This way you won't have to disable every single one of them. Good for troubleshooting because disabling menus/virtual libraries reduces LMS start time.
+
 PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_PREDEFINED
 	EN	Predefined browse menus
 

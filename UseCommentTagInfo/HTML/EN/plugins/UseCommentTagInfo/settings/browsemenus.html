@@ -3,6 +3,11 @@
 
 [% PROCESS plugins/UseCommentTagInfo/settings/subpage_chooser.html %]
 
+[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_VLSENABLED" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_VLSENABLED_DESC" %]
+	<input name="pref_vlstempdisabled" id="vlstempdisabled" type="checkbox" [% IF prefs.vlstempdisabled %] checked [% END %]>
+[% END %]<br>
+
+
 [% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_PREDEFINED" %]
 	[% WRAPPER setting title="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_RANDOM" desc="PLUGIN_USECOMMENTTAGINFO_SETTINGS_BROWSEMENUS_COMPIS_RANDOM_DESC" %]
 		<input name="pref_compisrandom" id="compisrandom" type="checkbox" [% IF prefs.compisrandom %] checked [% END %]>
