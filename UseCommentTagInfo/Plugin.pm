@@ -77,29 +77,14 @@ sub initPrefs {
 	if (!defined $browsemenus_parentfoldericon) {
 		$prefs->set('browsemenus_parentfoldericon', '0');
 	}
-	my $compisbygenre = $prefs->get('compisbygenre');
-	my $compisrandom = $prefs->get('compisrandom');
 	my $compisrandom_genreexcludelist = $prefs->get('compisrandom_genreexcludelist');
 	if (!defined $compisrandom_genreexcludelist) {
 		$prefs->set('compisrandom_genreexcludelist', 'Classical,Classical - Opera,Classical - BR,Soundtrack - TV &amp; Movie Themes');
 	}
-	my $operanoxmas = $prefs->get('operanoxmas');
 	my $toplevelplaylistname = $prefs->get('toplevelplaylistname');
 	if (!defined $toplevelplaylistname) {
 		$prefs->set('toplevelplaylistname', 'none');
 	}
-	my $alterativetoplevelplaylistname = $prefs->get('alterativetoplevelplaylistname') || '';
-
-	$prefs->init({
-		browsemenus_parentfoldername => $browsemenus_parentfoldername,
-		browsemenus_parentfoldericon => $browsemenus_parentfoldericon,
-		compisbygenre => $compisbygenre,
-		compisrandom => $compisrandom,
-		compisrandom_genreexcludelist => $compisrandom_genreexcludelist,
-		operanoxmas => $operanoxmas,
-		toplevelplaylistname => $toplevelplaylistname,
-		alterativetoplevelplaylistname => $alterativetoplevelplaylistname
-	});
 
 	$prefs->setValidate({
 		validator => sub {
@@ -164,8 +149,8 @@ sub initVirtualLibraries {
 		}
 
 		# unregister menus
-		my $browsemenus_parentfolderID = 'UCTI_MYCUSTOMMENUS';
-		Slim::Menu::BrowseLibrary->deregisterNode($browsemenus_parentfolderID);
+		$log->debug('browse menus/VLs globally disabled. Deregistering UCTI menus.');
+		Slim::Menu::BrowseLibrary->deregisterNode('UCTI_MYCUSTOMMENUS');
 		Slim::Menu::BrowseLibrary->deregisterNode('UCTI_HOMEMENU_COMPIS_EXCLUDEDGENRES_BROWSEMENU_COMPIS_RANDOM');
 		Slim::Menu::BrowseLibrary->deregisterNode('UCTI_HOMEMENU_COMPIS_BROWSEMENU_COMPIS_BYGENRE');
 

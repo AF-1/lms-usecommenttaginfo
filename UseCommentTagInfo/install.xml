@@ -3,7 +3,7 @@
 	<id>af4bb0d2-f101-f908-69d0-5652b51c896c</id>
 	<name>PLUGIN_USECOMMENTTAGINFO</name>
 	<module>Plugins::UseCommentTagInfo::Plugin</module>
-	<version>1.3.0</version>
+	<version>1.3.1</version>
 	<description>PLUGIN_USECOMMENTTAGINFO_DESC</description>
 	<creator>AF</creator>
 	<optionsURL>plugins/UseCommentTagInfo/settings/songdetails.html</optionsURL>
